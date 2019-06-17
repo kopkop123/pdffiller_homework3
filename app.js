@@ -16,6 +16,8 @@ let activePlayer = 0;
 let current = 0;
 const diceElement1 = document.querySelector('.dice-1');
 const diceElement2 = document.querySelector('.dice-2');
+const limitInput = document.querySelector('.limit');
+let limitValue = null;
 
 const initGame = () => {
   document.querySelector('#current-0').textContent = 0;
@@ -24,11 +26,15 @@ const initGame = () => {
   document.querySelector('#score-1').textContent = 0;
   diceElement1.style.display = 'none';
   diceElement2.style.display = 'none';
+  limitInput.removeAttribute("disabled");
 }
 
 initGame();
 
 document.querySelector('.btn-roll').addEventListener('click', function() {
+  limitValue = Number(limitInput.value) || 100;
+  limitInput.setAttribute("disabled", "disabled");
+
   let dice1 = Math.floor(Math.random() * 6) + 1;
   let dice2 = Math.floor(Math.random() * 6) + 1;
   let diceSumm = dice1 + dice2;
@@ -42,7 +48,7 @@ document.querySelector('.btn-roll').addEventListener('click', function() {
     current += diceSumm;
     document.getElementById('current-'+activePlayer).textContent = current;
 
-    if (scores[activePlayer] + current >= 100) {
+    if (scores[activePlayer] + current >= limitValue) {
       alert(`Player ${activePlayer} won!!!`);
     }
 
