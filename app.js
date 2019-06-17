@@ -9,7 +9,7 @@ GAME RULES:
 
 */
 
-const RESET_VALUE = 1;
+const RESET_VALUE = 2;
 
 let scores = [0, 0];
 let activePlayer = 0;
@@ -31,14 +31,15 @@ initGame();
 document.querySelector('.btn-roll').addEventListener('click', function() {
   let dice1 = Math.floor(Math.random() * 6) + 1;
   let dice2 = Math.floor(Math.random() * 6) + 1;
+  let diceSumm = dice1 + dice2;
 
   diceElement1.src = `dice-${dice1}.png`;
   diceElement1.style.display = 'block';
   diceElement2.src = `dice-${dice2}.png`;
   diceElement2.style.display = 'block';
 
-  if (dice1 !== RESET_VALUE) {
-    current += dice1;
+  if (dice1 !== RESET_VALUE && dice2 !== RESET_VALUE && dice1 !== dice2) {
+    current += diceSumm;
     document.getElementById('current-'+activePlayer).textContent = current;
 
     if (scores[activePlayer] + current >= 100) {
