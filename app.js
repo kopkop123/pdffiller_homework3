@@ -45,9 +45,10 @@ const initGame = () => {
   diceElement1.style.display = 'none';
   diceElement2.style.display = 'none';
   limitInput.removeAttribute("disabled");
+  let results = JSON.parse(localStorage.getItem('Results')) || {};
 
-  let player1 = new Gamer(document.querySelector('#name-0').textContent = prompt('Введите ваше имя', 'Игрок 1') || 'Игрок 1');
-  let player2 = new Gamer(document.querySelector('#name-1').textContent = prompt('Введите ваше имя', 'Игрок 2') || 'Игрок 2');
+  let player0 = new Gamer(document.querySelector('#name-0').textContent = prompt('Введите ваше имя', 'Игрок 1') || 'Игрок 1');
+  let player1 = new Gamer(document.querySelector('#name-1').textContent = prompt('Введите ваше имя', 'Игрок 2') || 'Игрок 2');
 }
 
 initGame();
@@ -71,8 +72,15 @@ document.querySelector('.btn-roll').addEventListener('click', function() {
 
     if (scores[activePlayer] + current >= limitValue) {
       alert(`Player ${activePlayer} won!!!`);
-    }
 
+      if(results.hasOwnProperty(document.querySelector(`#name-${activePlayer}`).textContent)) {
+        results[document.querySelector(`#name-${activePlayer}`).textContent] += 1;
+      } else {
+        results[document.querySelector(`#name-${activePlayer}`).textContent] = 1;
+      }
+
+      localStorage.setItem('Results', JSON.stringify(results));
+    }
   } else {
     changePlayer();
   }
@@ -92,6 +100,21 @@ document.querySelector('.btn-hold').addEventListener('click', function() {
   scores[activePlayer] += current;
   document.querySelector(`#score-${activePlayer}`).textContent = scores[activePlayer];
   changePlayer();
+});
+
+
+document.querySelector('.btn-winners').addEventListener('click', function() {
+  let resultObj = JSON.parse(localStorage.getItem('Results'));
+  let resultArr = [];
+
+  for(let user in resultObj) {
+    resultArr.push([user, resultObj[user]]);
+  }
+
+  resultArr.sort((a, b) => b[1] - a[1]);
+
+  alert(resultArr);
+  console.table(resultArr);
 });
 
 
