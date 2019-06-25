@@ -18,6 +18,7 @@ const diceElement1 = document.querySelector('.dice-1');
 const diceElement2 = document.querySelector('.dice-2');
 const limitInput = document.querySelector('.limit');
 let limitValue = null;
+let results = JSON.parse(localStorage.getItem('Results')) || {};
 
 function Gamer(name) {
   this.name = name;
@@ -45,10 +46,9 @@ const initGame = () => {
   diceElement1.style.display = 'none';
   diceElement2.style.display = 'none';
   limitInput.removeAttribute("disabled");
-  let results = JSON.parse(localStorage.getItem('Results')) || {};
 
-  let player0 = new Gamer(document.querySelector('#name-0').textContent = prompt('Введите ваше имя', 'Игрок 1') || 'Игрок 1');
-  let player1 = new Gamer(document.querySelector('#name-1').textContent = prompt('Введите ваше имя', 'Игрок 2') || 'Игрок 2');
+  new Gamer(document.querySelector('#name-0').textContent = prompt('Введите ваше имя', 'Игрок 1') || 'Игрок 1');
+  new Gamer(document.querySelector('#name-1').textContent = prompt('Введите ваше имя', 'Игрок 2') || 'Игрок 2');
 }
 
 initGame();
